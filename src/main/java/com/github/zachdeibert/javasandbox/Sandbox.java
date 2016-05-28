@@ -89,7 +89,7 @@ public final class Sandbox {
 	}
 
 	public Sandbox(JvmSubset subset) {
-		this(subset, ClassLoader.getSystemClassLoader());
+		this(subset, ClassLoader.getSystemClassLoader(), Sandbox.class.getClassLoader());
 	}
 
 	public Sandbox() {

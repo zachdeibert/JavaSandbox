@@ -20,24 +20,22 @@ final class SandboxClassLoader extends ClassLoader {
 		try {
 			ClassWriter cw = new ClassWriter(0);
 			ClassVisitor cv = new SandboxTransformer(cw, sandbox);
-			ClassReader cr = new ClassReader(getResourceAsStream("/".concat(name.replace('.', '/').concat(".class"))));
+			ClassReader cr = new ClassReader(getResourceAsStream(name.replace('.', '/').concat(".class")));
 			cr.accept(cv, 0);
 			byte[] b = cw.toByteArray();
 			return defineClass(name, b, 0, b.length);
-		} catch ( IOException|IllegalReferenceException ex ) {
+		} catch ( IOException | IllegalReferenceException ex ) {
 			throw new ClassNotFoundException("Unable to load class", ex);
 		}
 	}
 
 	@Override
 	protected final URL findResource(final String name) {
-		System.out.println(name);
-		if ( name.startsWith(String.format("/com/github/zachdeibert/javasandbox/vm%s/", sandbox.vm)) ) {
+		if ( name.startsWith(String.format("com/github/zachdeibert/javasandbox/vm%s/", sandbox.vm)) ) {
 			return findResource(name.substring(54));
 		}
 		for ( final ClassLoader parent : parents ) {
 			URL url = parent.getResource(name);
-			System.out.printf("%s => %s\n", parent, url);
 			if ( url != null ) {
 				return url;
 			}
@@ -47,7 +45,7 @@ final class SandboxClassLoader extends ClassLoader {
 
 	@Override
 	protected final Enumeration<URL> findResources(final String name) throws IOException {
-		if ( name.startsWith(String.format("/com/github/zachdeibert/javasandbox/vm%s/", sandbox.vm)) ) {
+		if ( name.startsWith(String.format("com/github/zachdeibert/javasandbox/vm%s/", sandbox.vm)) ) {
 			return findResources(name.substring(54));
 		}
 		final List<URL> urls = new ArrayList<URL>();
