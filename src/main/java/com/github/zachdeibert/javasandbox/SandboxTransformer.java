@@ -49,8 +49,10 @@ final class SandboxTransformer extends ClassVisitor {
 			argTypes[i] = Type.getObjectType(transform(argTypes[i].getClassName()).replace('.', '/'));
 		}
 		desc = Type.getMethodDescriptor(Type.getObjectType(ret.replace('.', '/')), argTypes);
-		for ( int i = 0; i < exceptions.length; ++i ) {
-			exceptions[i] = transform(exceptions[i]);
+		if ( exceptions != null ) {
+			for ( int i = 0; i < exceptions.length; ++i ) {
+				exceptions[i] = transform(exceptions[i]);
+			}
 		}
 		return super.visitMethod(access, name, desc, signature, exceptions);
 	}
