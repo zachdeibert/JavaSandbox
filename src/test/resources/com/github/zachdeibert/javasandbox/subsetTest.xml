@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jvmSubset default="true" includeDefault="false">
+	<allow>java.util</allow>
+	<deny>java.lang</deny>
+	<deny>java.awt.Color..ctor(int)</deny>
+	<allow>java.lang.Object.hashCode()</allow>
+	<deny>java.awt.Color.value</deny>
+	<include>java</include>
+	<exclude>java.io</exclude>
+	<include>javax.swing.JLabel..ctor(String)</include>
+	<exclude>java.lang.Object.equals(Object)</exclude>
+	<include>javax.swing.JLabel.text</include>
+</jvmSubset>
