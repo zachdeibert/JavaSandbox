@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jvmSubset default="false" includeDefault="false">
+	<rule>java.lang</rule>
+	<rule allow="false">java.lang.reflect</rule>
+	<rule>java.util</rule>
+	<include>java</include>
+	<include>javax</include>
+</jvmSubset>

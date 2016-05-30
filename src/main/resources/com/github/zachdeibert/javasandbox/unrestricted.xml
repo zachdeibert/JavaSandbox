@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jvmSubset default="true" includeDefault="false">
+	<include>java</include>
+	<include>javax</include>
+</jvmSubset>

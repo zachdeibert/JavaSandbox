@@ -26,7 +26,7 @@ public class JvmSubsetBuilder {
 		if ( node.hasAttribute("allow") ) {
 			allow = Boolean.parseBoolean(node.getAttribute("allow"));
 		}
-		return new JvmSubsetRule(allow, node.getNodeValue());
+		return new JvmSubsetRule(allow, node.getTextContent());
 	}
 
 	protected void parseElement(final Element node) throws IOException {

@@ -1,5 +1,6 @@
 package com.github.zachdeibert.javasandbox;
 
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -7,12 +8,19 @@ import java.lang.reflect.Method;
 public final class JvmSubset {
 	public static final JvmSubset DEFAULT_INCLUDE = new JvmSubset(false, (JvmSubset) null,
 			new JvmSubsetRule(true, "java"), new JvmSubsetRule(true, "javax"));
-	public static final JvmSubset ALL_PERMISSIONS = new JvmSubset(true);
-	public static final JvmSubset DEFAULT = new JvmSubset(false, new JvmSubsetRule(true, "java.lang"),
-			new JvmSubsetRule(false, "java.lang.reflect"), new JvmSubsetRule(true, "java.util"));
+	public static final JvmSubset ALL_PERMISSIONS = load("com/github/zachdeibert/javasandbox/unrestricted.xml");
+	public static final JvmSubset DEFAULT = load("com/github/zachdeibert/javasandbox/default.xml");
 	private final boolean def;
 	private final JvmSubset include;
 	private final JvmSubsetRule[] rules;
+
+	private static final JvmSubset load(final String name) {
+		try {
+			return new JvmSubsetBuilder().load(name).build();
+		} catch ( final IOException ex ) {
+			throw new RuntimeException(ex);
+		}
+	}
 
 	public final boolean isIncluded(final String cls) {
 		return include == null ? true : include.isAllowed(cls);
