@@ -21,8 +21,8 @@ public class JvmSubsetBuilder {
 	private final JvmSubsetBuilder includes;
 	private final JvmSubsetBuilder parent;
 
-	protected JvmSubsetRule parseRule(final Element node) throws IOException {
-		boolean allow = true;
+	protected JvmSubsetRule parseRule(final Element node, final boolean def) throws IOException {
+		boolean allow = def;
 		if ( node.hasAttribute("allow") ) {
 			allow = Boolean.parseBoolean(node.getAttribute("allow"));
 		}
@@ -32,10 +32,17 @@ public class JvmSubsetBuilder {
 	protected void parseElement(final Element node) throws IOException {
 		switch ( node.getTagName() ) {
 		case "rule":
-			rules.add(parseRule(node));
+		case "allow":
+			rules.add(parseRule(node, true));
+			break;
+		case "deny":
+			rules.add(parseRule(node, false));
 			break;
 		case "include":
-			includes.rules.add(parseRule(node));
+			includes.rules.add(parseRule(node, true));
+			break;
+		case "exclude":
+			includes.rules.add(parseRule(node, false));
 			break;
 		default:
 			throw new IOException("Invalid tag name");
