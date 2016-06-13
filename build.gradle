@@ -1,4 +1,7 @@
 apply plugin: "java"
+apply plugin: "maven-publish"
+
+def publishVersion = "1.0.0-SNAPSHOT"
 
 repositories {
 	mavenCentral()
@@ -7,4 +10,44 @@ repositories {
 dependencies {
 	compile "org.ow2.asm:asm:5.1"
 	testCompile "junit:junit:4.12"
+}
+
+task jarSrc(type: Jar) {
+	classifier = "sources"
+	from sourceSets.main.allSource
+}
+
+task jarDoc(type: Jar) {
+	classifier = "javadoc"
+	from javadoc.destinationDir
+	dependsOn javadoc
+}
+
+publishing {
+	repositories {
+		maven {
+			url "build/maven"
+		}
+	}
+	
+	publications {
+		main(MavenPublication) {
+			from components.java
+			groupId "com.github.zachdeibert"
+			artifactId "javasandbox"
+			version publishVersion
+		}
+		src(MavenPublication) {
+			artifact jarSrc
+			groupId "com.github.zachdeibert"
+			artifactId "javasandbox"
+			version publishVersion
+		}
+		javadoc(MavenPublication) {
+			artifact jarDoc
+			groupId "com.github.zachdeibert"
+			artifactId "javasandbox"
+			version publishVersion
+		}
+	}
 }
