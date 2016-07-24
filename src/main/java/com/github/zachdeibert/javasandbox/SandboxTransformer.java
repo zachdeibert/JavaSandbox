@@ -73,6 +73,11 @@ final class SandboxTransformer extends ClassVisitor {
 		}
 
 		@Override
+		public void visitLdcInsn(final Object cst) {
+			super.visitLdcInsn(cst instanceof Type ? transform((Type) cst) : cst);
+		}
+
+		@Override
 		public final void visitLocalVariable(final String name, String desc, final String signature, final Label start,
 				final Label end, final int index) {
 			desc = transformClassDesc(desc);
