@@ -152,7 +152,7 @@ final class SandboxTransformer extends ClassVisitor {
 		name = transformClassDesc(name);
 		superName = transformClassDesc(superName);
 		for ( int i = 0; i < interfaces.length; ++i ) {
-			interfaces[i] = transformClass(interfaces[i]);
+			interfaces[i] = transformClassDesc(interfaces[i]);
 		}
 		super.visit(version, access, name, signature, superName, interfaces);
 	}
