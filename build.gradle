@@ -42,12 +42,34 @@ publishing {
 			groupId "com.github.zachdeibert"
 			artifactId "javasandbox"
 			version publishVersion
+			pom {
+				withXml {
+					def deps = asNode().appendNode("dependencies")
+					configurations.compile.allDependencies.each {
+						def dep = deps.appendNode("dependency")
+						dep.appendNode("groupId", it.group)
+						dep.appendNode("artifactId", it.name)
+						dep.appendNode("version", it.version)
+					}
+				}
+			}
 		}
 		javadoc(MavenPublication) {
 			artifact jarDoc
 			groupId "com.github.zachdeibert"
 			artifactId "javasandbox"
 			version publishVersion
+			pom {
+				withXml {
+					def deps = asNode().appendNode("dependencies")
+					configurations.compile.allDependencies.each {
+						def dep = deps.appendNode("dependency")
+						dep.appendNode("groupId", it.group)
+						dep.appendNode("artifactId", it.name)
+						dep.appendNode("version", it.version)
+					}
+				}
+			}
 		}
 	}
 }
