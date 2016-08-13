@@ -40,6 +40,28 @@ final class SandboxTransformer extends ClassVisitor {
 		}
 
 		@Override
+		public void visitFrame(final int type, final int nLocal, final Object[] local, final int nStack,
+				final Object[] stack) {
+			final Object[] transformedLocals = new Object[nLocal];
+			for ( int i = 0; i < nLocal; ++i ) {
+				if ( local[i] instanceof String ) {
+					transformedLocals[i] = transformClassDesc((String) local[i]);
+				} else {
+					transformedLocals[i] = local[i];
+				}
+			}
+			final Object[] transformedStack = new Object[nStack];
+			for ( int i = 0; i < nStack; ++i ) {
+				if ( stack[i] instanceof String ) {
+					transformedStack[i] = transformClassDesc((String) stack[i]);
+				} else {
+					transformedStack[i] = stack[i];
+				}
+			}
+			super.visitFrame(type, nLocal, transformedLocals, nStack, transformedStack);
+		}
+
+		@Override
 		public final void visitMethodInsn(final int opcode, String owner, final String name, String desc,
 				final boolean itf) {
 			owner = transformClassDesc(owner);
